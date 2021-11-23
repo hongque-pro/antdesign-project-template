@@ -1,9 +1,17 @@
+const { UMI_ENV } = process.env;
+
 const Constants = {
-  project: {
-    name: '百岁通康养系统',
-    shortName: '百岁通',
-  },
-  routes: [] as any[],
+    isDev: UMI_ENV === "dev",
+    clientId: "",
+    clientSecret: "",
+    project: {
+        icp: "滇ICP备2020008914号-1",
+        name: '百岁通智慧康养平台',
+        slogan: "一站式社区养老解决方案",
+        shortName: '百岁通',
+        company: "昆明红雀科技有限公司"
+    },
+    routes: [] as any[],
 };
 
 export default Constants;

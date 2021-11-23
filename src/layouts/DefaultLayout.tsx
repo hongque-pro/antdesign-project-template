@@ -11,22 +11,24 @@ import { Link } from 'umi';
 import type { ComponentProperties } from '@/types/react';
 import { useStores } from '@/models/global';
 import { UserOutlined } from '@ant-design/icons';
+import Footer from '@/components/Footer';
+import logSvg from "@/assets/images/logo-white.svg";
+import { useLocalStore } from 'mobx-react-lite';
+import ProCard from '@ant-design/pro-card';
+import RightContent from '@/components/RightContent';
 
 export default function HomeLayout(props: ComponentProperties) {
   const { ui } = useStores();
 
   const renderFooter = useCallback(() => {
     return (
-      <DefaultFooter
-        links={[{ key: '1', title: '关于我们', href: 'www.alipay.com' }]}
-        copyright="2021 百岁通出品."
-      />
+      <Footer />
     );
   }, []);
 
   const routes = Constants.routes as Route[];
 
-  const currentRoute = routes.find((r) => r.path?.startsWith('/'));
+  const currentRoute = routes.find((r) => r.path === "/");
 
   return (
     <div
@@ -35,20 +37,19 @@ export default function HomeLayout(props: ComponentProperties) {
       }}
     >
       <ProLayout
+        headerTheme="dark"
+        layout="mix"
+        
+        navTheme="light"
+        title={`${Constants.project.shortName}管理后台`}
         waterMarkProps={{ content: Constants.project.shortName }}
         locale={false as any}
         route={currentRoute}
+        logo={<Avatar src={logSvg} style={{ backgroundColor: "#fff" }} />}
         footerRender={renderFooter}
-        menuHeaderRender={(logoDom, titleDom) => (
-          <Link to="/">
-            {logoDom}
-            {titleDom}
-          </Link>
-        )}
+        menuHeaderRender={false}
         rightContentRender={() => (
-          <div>
-            <Avatar style={{ flexShrink: 0 }} icon={<UserOutlined />} />
-          </div>
+          <div><RightContent /></div>
         )}
         menuItemRender={(menuItemProps, defaultDom) => {
           if (
@@ -69,15 +70,21 @@ export default function HomeLayout(props: ComponentProperties) {
           );
         }}
         location={{
-          pathname: ui.routePath,
+          pathname: location.pathname,
         }}
-        headerContentRender={() => <ProBreadcrumb />}
-        breadcrumbRender={(r) => {
-          return r;
-        }}
+        headerContentRender={() => null}
+        breadcrumbRender={(routes) => [
+          {
+            path: '/',
+            breadcrumbName: '主页',
+          },
+          ...(routes || []),
+        ]}
       >
-        <PageContainer content="欢迎使用" breadcrumbRender={false}>
-          {props.children}
+        <PageContainer ghost={true} title={false} subTitle={false}>
+          <div style={{padding: 8, backgroundColor:"#fff"}}>
+            {props.children}
+          </div>
         </PageContainer>
       </ProLayout>
     </div>

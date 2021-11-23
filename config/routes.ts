@@ -1,5 +1,16 @@
 export default [
   {
+    path: '/user',
+    layout: false,
+    routes: [
+      {
+        name: '登录', path: '/user/login', component: './Login'
+      },
+      { component: './404' },
+    ],
+  },
+  {
+
     path: '/',
     component: '@/layouts/DefaultLayout',
     routes: [

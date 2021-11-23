@@ -7,4 +7,4 @@ export interface UserModel {
 
 export const userStore = observable<UserModel>({
   current: undefined,
-});
+}, undefined, { deep: false });
