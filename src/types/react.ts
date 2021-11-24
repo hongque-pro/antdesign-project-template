@@ -1,7 +1,5 @@
-import type { ReactNode } from 'react';
-import type { RouteChildrenProps } from 'react-router';
+import { IRouteComponentProps } from '@umijs/types';
 
 
-export interface ComponentProperties extends RouteChildrenProps {
-    children?: ReactNode;
+export interface ComponentProperties<Params=any> extends IRouteComponentProps<Params> {
 }
