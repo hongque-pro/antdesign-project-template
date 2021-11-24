@@ -1,9 +1,7 @@
 import { PageLoading } from "@ant-design/pro-layout";
-import { useLocalStore, useObserver } from "mobx-react-lite";
-import { useState } from "react";
 import { configureStore, MobxContext } from "./models/global";
 import { ComponentProperties } from "./types/react";
-import { useStoreEffect, useStoreState } from "./utils/hooks";
+import { useStoreState } from "./utils/hooks";
 
 
 const globalStore = configureStore();

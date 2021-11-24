@@ -1,24 +1,17 @@
 import { useCallback } from 'react';
 import ProLayout, {
-  DefaultFooter,
   PageContainer,
-  ProBreadcrumb,
 } from '@ant-design/pro-layout';
 import { Avatar } from 'antd';
 import Constants from '@/utils/constants';
 import type { Route } from '@ant-design/pro-layout/lib/typings';
 import { Link } from 'umi';
 import type { ComponentProperties } from '@/types/react';
-import { useStores } from '@/models/global';
-import { UserOutlined } from '@ant-design/icons';
 import Footer from '@/components/Footer';
 import logSvg from "@/assets/images/logo-white.svg";
-import { useLocalStore } from 'mobx-react-lite';
-import ProCard from '@ant-design/pro-card';
 import RightContent from '@/components/RightContent';
 
 export default function HomeLayout(props: ComponentProperties) {
-  const { ui } = useStores();
 
   const renderFooter = useCallback(() => {
     return (
