@@ -1,3 +1,4 @@
+
 export default [
   {
     path: '/user',
@@ -10,7 +11,6 @@ export default [
     ],
   },
   {
-
     path: '/',
     component: '@/layouts/DefaultLayout',
     routes: [

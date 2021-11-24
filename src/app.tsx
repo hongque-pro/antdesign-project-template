@@ -21,7 +21,8 @@ const loopMenuItem = (menus: MenuDataItem[]): Route[] =>
 
 export function patchRoutes(args: any) {
     console.log(args);
-    const { routes } = args;
+    const { routes } = args as { routes: MenuDataItem & { title: string }[] };
+
     Constants.routes = loopMenuItem(routes);
 }
 
@@ -33,9 +34,10 @@ export function rootContainer(container: React.ReactNode) {
     );
 }
 
-// export function onRouteChange(args: any) {
-//     console.log("route", args);
-// }
+export function onRouteChange(args: any) {
+    document.title = Constants.project.name;
+    console.log("route", args);
+}
 
 
 export function render(oldRender: () => void) {

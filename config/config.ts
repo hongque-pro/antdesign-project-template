@@ -6,6 +6,7 @@ const path = require('path');
 const { UMI_ENV } = process.env;
 console.log('path', path.resolve(__dirname, '..', 'node_modules'));
 
+
 export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
@@ -20,5 +21,8 @@ export default defineConfig({
     'link-color': '#00b2a5',
   },
 
-  proxy: proxy[UMI_ENV || 'dev']
+  proxy: proxy[UMI_ENV || 'dev'],
+  define: {
+    
+  }
 });
