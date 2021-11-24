@@ -1,14 +1,11 @@
 import { HomeOutlined } from '@ant-design/icons';
-import type { MenuDataItem, Route } from '@ant-design/pro-layout/lib/typings';
-import { clientSession, isNotNullOrBlankString } from 'infra-sdk-core';
+import type { MenuDataItem } from '@ant-design/pro-layout/lib/typings';
+import { clientSession } from 'infra-sdk-core';
 import React from 'react';
-import { configureStore, MobxContext } from './models/global';
 import Constants from './utils/constants';
-import { history } from "umi";
 import { redirectToLogin } from './services/account';
-import { runInAction } from 'mobx';
+import Root from './root';
 
-const globalStore = configureStore();
 
 const menuIconMap: Record<string, React.ReactNode> = {
     home: <HomeOutlined />,
@@ -29,8 +26,8 @@ export function patchRoutes(args: any) {
 
 export function rootContainer(container: React.ReactNode) {
     return React.createElement(
-        MobxContext.Provider,
-        { value: globalStore },
+        Root,
+        null,
         container,
     );
 }
@@ -42,8 +39,9 @@ export function rootContainer(container: React.ReactNode) {
 
 export function render(oldRender: () => void) {
     fetch('/api/auth').then(auth => {
-        if (!clientSession.user.isAnonymous) { oldRender() }
-        else {
+        if (!clientSession.user.isAnonymous) { 
+            oldRender() 
+        }else {
             redirectToLogin();
             oldRender();
         }

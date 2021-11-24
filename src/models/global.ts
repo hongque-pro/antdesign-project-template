@@ -36,9 +36,14 @@ export const configureStore = (fetchData?: RemoteFetch) => {
       if (response.ok) {
         runInAction(() => {
           defaultStore.user.current = data.user;
+          defaultStore.ui.isLoading = false;
         });
+      }else{
+        defaultStore.ui.isLoading = false;
       }
     });
+  }else{
+    defaultStore.ui.isLoading = false;
   }
   return defaultStore;
 };

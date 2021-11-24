@@ -1,6 +1,7 @@
-import type { ComponentProps } from 'react';
+import type { ReactNode } from 'react';
 import type { RouteChildrenProps } from 'react-router';
 
-type BaseProps = RouteChildrenProps & ComponentProps<any>;
 
-export type ComponentProperties = BaseProps;
+export interface ComponentProperties extends RouteChildrenProps {
+    children?: ReactNode;
+}
