@@ -5,13 +5,14 @@ import React from 'react';
 import Constants from './utils/constants';
 import { redirectToLogin } from './services/account';
 import Root from './root';
+import { Route } from "@ant-design/pro-layout/lib/typings";
 
 
 const menuIconMap: Record<string, React.ReactNode> = {
     home: <HomeOutlined />,
 };
 
-const loopMenuItem = (menus: MenuDataItem[]): MenuDataItem[] =>
+const loopMenuItem = (menus: MenuDataItem[]): Route[] =>
     menus.map(({ icon, routes, ...item }) => ({
         ...item,
         icon: icon ? menuIconMap[icon as string] : icon,

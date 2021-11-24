@@ -19,9 +19,7 @@ export default function HomeLayout(props: ComponentProperties) {
     );
   }, []);
 
-  const routes = Constants.routes as Route[];
-
-  const currentRoute = routes.find((r) => r.path === "/");
+  const currentRoute = Constants.routes.find((r) => r.path === "/");
 
   return (
     <div

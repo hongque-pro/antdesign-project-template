@@ -1,3 +1,5 @@
+import { Route } from "@ant-design/pro-layout/lib/typings";
+
 const { UMI_ENV } = process.env;
 
 const Constants = {
@@ -11,7 +13,7 @@ const Constants = {
         shortName: '百岁通',
         company: "昆明红雀科技有限公司"
     },
-    routes: [] as any[],
+    routes: [] as Route[],
 };
 
 export default Constants;
