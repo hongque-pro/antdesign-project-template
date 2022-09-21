@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -25,5 +27,6 @@
     ".umirc.ts",
     "typings.d.ts"
   ],
+  
   "exclude": ["node_modules", "**/node_modules/*", "build", "dist", "scripts", "src/.umi/*", "webpack", "jest"]
 }

@@ -1,8 +1,8 @@
 import { request } from "@/utils/request";
-import { clientSession, LoginParam, makeSucceedResponseWithData, OAuth2RequestOptions, UserPrincipal } from "infra-sdk-core";
+import { clientSession, isNullOrBlankString, LoginParam, makeSucceedResponseWithData, OAuth2RequestOptions, UserPrincipal } from "infra-sdk-core";
 import { HttpResponse } from "infra-sdk-core/lib/request/types";
-import { history } from 'umi';
-import { stringify } from 'querystring';
+import { stringify,parse } from "query-string";
+import { history, createHistory } from '@umijs/max';
 
 export async function login(user: string, password: string, options?: OAuth2RequestOptions): Promise<HttpResponse<UserPrincipal>> {
     const param: LoginParam = {
@@ -32,14 +32,21 @@ export function loginOut() {
 
 
 export function redirectToLogin() {
-    const { query = {}, search, pathname } = history.location;
-    console.log(history.location);
+    if(!history)
+    {
+        createHistory({ type: "browser"});
+    }
+    const { location } = history;
+    const { search, pathname } = location;
+    const query = parse(location.search) || {};
     const { redirect } = query;
+    const isLoginPage = location.pathname === '/user/login';
+    console.log(`redicre from : ${location.pathname}, query: ${redirect}, isLoginPage: ${isLoginPage}`);
     // Note: There may be security issues, please note
-    if (window.location.pathname !== '/user/login' && !redirect) {
-        const loginPaht = "/user/login";
-        if (pathname === "/" && search === "") {
-            history.replace(loginPaht);
+    if (!isLoginPage && !redirect) {
+        const loginPath = "/user/login";
+        if (pathname === "/" && isNullOrBlankString(search)) {
+            history.push(loginPath);
         } else {
             history.replace({
                 pathname: '/user/login',

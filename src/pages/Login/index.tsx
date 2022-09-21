@@ -7,10 +7,11 @@ import {
     WechatOutlined,
     WeiboCircleOutlined,
 } from '@ant-design/icons';
+import { parse } from 'querystring';
 import { Alert, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { history } from 'umi';
+import { history } from '@umijs/max';
 import Footer from '@/components/Footer';
 import styles from './index.less';
 import { login } from '@/services/account';
@@ -34,7 +35,6 @@ const LoginMessage: React.FC<{
         }}
         message={content}
         type="error"
-        showIcon
     />
 );
 
@@ -55,7 +55,8 @@ const Login: React.FC = () => {
                 /** 此方法会跳转到 redirect 参数所在的位置 */
 
                 if (!history) return;
-                const { query } = history.location;
+
+                const query = parse(history.location.search);
                 const { redirect } = query as {
                     redirect: string;
                 };
@@ -73,6 +74,99 @@ const Login: React.FC = () => {
         }
     };
 
+    const accountView = (type ==="account" ? <>
+     <ProFormText
+        name="username"
+        fieldProps={{
+            size: 'large',
+            prefix: <UserOutlined className={styles.prefixIcon} />,
+        }}
+        placeholder={'用户名: admin or user'}
+        rules={[
+            {
+                required: true,
+                message: '用户名是必填项！',
+            },
+        ]}
+    />
+    <ProFormText.Password
+        name="password"
+        fieldProps={{
+            size: 'large',
+            prefix: <LockOutlined className={styles.prefixIcon} />,
+        }}
+        placeholder={'密码: ant.design'}
+        rules={[
+            {
+                required: true,
+                message: '密码是必填项！',
+            },
+        ]}
+    />
+</> : null);
+
+    const mobileView = ( type ==="mobile" ?
+    <>
+        <ProFormText
+            fieldProps={{
+                size: 'large',
+                prefix: <MobileOutlined className={styles.prefixIcon} />,
+            }}
+            name="mobile"
+            placeholder={'请输入手机号！'}
+            rules={[
+                {
+                    required: true,
+                    message: '手机号是必填项！',
+                },
+                {
+                    pattern: /^1\d{10}$/,
+                    message: '不合法的手机号！',
+                },
+            ]}
+        />
+        <ProFormCaptcha
+            fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined className={styles.prefixIcon} />,
+            }}
+            captchaProps={{
+                size: 'large',
+            }}
+            placeholder={'请输入验证码！'}
+            captchaTextRender={(timing, count) => {
+                if (timing) {
+                    return `${count} ${'秒后重新获取'}`;
+                }
+
+                return '获取验证码';
+            }}
+            name="captcha"
+            rules={[
+                {
+                    required: true,
+                    message: '验证码是必填项！',
+                },
+            ]}
+            onGetCaptcha={async (phone) => {
+                // const result = await getFakeCaptcha({
+                //   phone,
+                // });
+
+                // if (result === false) {
+                //   return;
+                // }
+
+                message.success('获取验证码成功！验证码为：1234');
+            }}
+        />
+    </> : null
+);
+
+    const items = [
+        { label: '账户密码登录', key: 'account', children: accountView }, // 务必填写 key
+        { label: '手机号登录', key: 'mobile', children: mobileView },
+      ];
 
     return (
         <div className={styles.container}>
@@ -93,104 +187,7 @@ const Login: React.FC = () => {
                     }}
                 >
 
-                    <Tabs activeKey={type} onChange={setType}>
-                        <Tabs.TabPane key="account" tab={'账户密码登录'} />
-                        <Tabs.TabPane key="mobile" tab={'手机号登录'} />
-                    </Tabs>
-
-                    {loginError?.error_description && (
-                        <LoginMessage content={loginError.error_description} />
-                    )}
-                    {type === 'account' && (
-                        <>
-                            <ProFormText
-                                name="username"
-                                fieldProps={{
-                                    size: 'large',
-                                    prefix: <UserOutlined className={styles.prefixIcon} />,
-                                }}
-                                placeholder={'用户名: admin or user'}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '用户名是必填项！',
-                                    },
-                                ]}
-                            />
-                            <ProFormText.Password
-                                name="password"
-                                fieldProps={{
-                                    size: 'large',
-                                    prefix: <LockOutlined className={styles.prefixIcon} />,
-                                }}
-                                placeholder={'密码: ant.design'}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '密码是必填项！',
-                                    },
-                                ]}
-                            />
-                        </>
-                    )}
-
-                    {type === 'mobile' && (
-                        <>
-                            <ProFormText
-                                fieldProps={{
-                                    size: 'large',
-                                    prefix: <MobileOutlined className={styles.prefixIcon} />,
-                                }}
-                                name="mobile"
-                                placeholder={'请输入手机号！'}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '手机号是必填项！',
-                                    },
-                                    {
-                                        pattern: /^1\d{10}$/,
-                                        message: '不合法的手机号！',
-                                    },
-                                ]}
-                            />
-                            <ProFormCaptcha
-                                fieldProps={{
-                                    size: 'large',
-                                    prefix: <LockOutlined className={styles.prefixIcon} />,
-                                }}
-                                captchaProps={{
-                                    size: 'large',
-                                }}
-                                placeholder={'请输入验证码！'}
-                                captchaTextRender={(timing, count) => {
-                                    if (timing) {
-                                        return `${count} ${'秒后重新获取'}`;
-                                    }
-
-                                    return '获取验证码';
-                                }}
-                                name="captcha"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '验证码是必填项！',
-                                    },
-                                ]}
-                                onGetCaptcha={async (phone) => {
-                                    // const result = await getFakeCaptcha({
-                                    //   phone,
-                                    // });
-
-                                    // if (result === false) {
-                                    //   return;
-                                    // }
-
-                                    message.success('获取验证码成功！验证码为：1234');
-                                }}
-                            />
-                        </>
-                    )}
+                    <Tabs activeKey={type} onChange={setType} items={items} />
                     <div
                         style={{
                             marginBottom: 24,

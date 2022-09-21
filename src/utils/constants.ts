@@ -1,4 +1,4 @@
-import { Route } from "@ant-design/pro-layout/lib/typings";
+import { Route } from "@ant-design/pro-layout/es/typings";
 
 const { UMI_ENV } = process.env;
 

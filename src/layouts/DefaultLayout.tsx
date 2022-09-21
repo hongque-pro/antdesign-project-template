@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import ProLayout, {
   PageContainer,
-} from '@ant-design/pro-layout';
+} from '@ant-design/pro-layout/es';
 import { Avatar } from 'antd';
 import Constants from '@/utils/constants';
-import type { Route } from '@ant-design/pro-layout/lib/typings';
+import type { Route } from '@ant-design/pro-layout/es/typings';
 import { Link } from 'umi';
 import type { ComponentProperties } from '@/types/react';
 import Footer from '@/components/Footer';
@@ -28,7 +28,6 @@ export default function HomeLayout(props: ComponentProperties) {
       }}
     >
       <ProLayout
-        headerTheme="dark"
         layout="mix"
         
         navTheme="light"
